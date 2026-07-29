@@ -2,13 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 def home(request):
-    result=andaman_prisoners(10)
-    return render(request,'app1/index.html',{'param1':result})
-prisons=[]
+    lucky,unlucky=andaman_prisoners(100)
+    return render(request,'app1/index.html',{'param1':lucky,'param2':unlucky})
+
 def andaman_prisoners(total_prisons):
-    f1=open('letter1.txt','w')
-    f2=open('letter2.txt','w')
-    
+    prisons=[]
     for i in range(0,total_prisons,1):
         prisons.append('C')
     
@@ -27,10 +25,7 @@ def andaman_prisoners(total_prisons):
                 prisons[i]='O'
             else:
                 prisons[i]='C'
-
-    f1.write("Prisoners from these cells will be released today:\n")
-    f2.write("Prisoners from these cells will be released after 4 weeks:\n")
-
+   
     lucky=[]
     unlucky=[]
     for i in range(len(prisons)):   
@@ -39,11 +34,5 @@ def andaman_prisoners(total_prisons):
         else:
             unlucky.append(i+1)
 
-    for cell in lucky:
-        f1.write(f"{cell}\n")
-
-    for cell in unlucky:
-        f2.write(f"{cell}\n")
-    f1.close()
-    f2.close()
+    return lucky, unlucky
 
